@@ -998,7 +998,7 @@ end;
 
 function TResource.Post(Entity: TObject): TObject;
 begin
-  Result := Post(Entity, Entity.ClassType);
+  Result := EntityRequest(Entity, Entity.ClassType, METHOD_POST);
 end;
 
 function TResource.Post(Content: string; ResultClass: TClass): TObject;
@@ -1025,7 +1025,7 @@ end;
 
 function TResource.Put(Entity: TObject): TObject;
 begin
-  Result := Put(Entity, Entity.ClassType);
+  Result := EntityRequest(Entity, Entity.ClassType, METHOD_PUT);
 end;
 
 function TResource.Put(Content: string; ResultClass: TClass): TObject;
@@ -1062,7 +1062,7 @@ end;
 
 function TResource.Patch(Entity: TObject): TObject;
 begin
-  Result := Patch(Entity, Entity.ClassType);
+  Result := EntityRequest(Entity, Entity.ClassType, METHOD_PATCH);
 end;
 
 function TResource.Patch(Content: string; ResultClass: TClass): TObject;
@@ -1138,7 +1138,7 @@ begin
     Exit;
   end;
 
-  if Field.FieldType.Name.Equals(TMultiPartFormAttachment.ClassName) then
+  if Field.FieldType.Name = TMultiPartFormAttachment.ClassName then
   begin
     Attachment := Field.GetValue(Self).AsType<TMultiPartFormAttachment>;
     Content.Add(Format(FmtFileContent, [Field.Name, Attachment.FileName, Attachment.MimeType, Attachment.Content.DataString]));
